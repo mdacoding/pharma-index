@@ -1,6 +1,6 @@
 # PharmaIndex
 
-Stammdatenplattform für Fertigarzneimittel – **Katalog, Matching, Qualitätssicherung** und eine JavaFX-QA-Workstation. Gebaut wie ein Ausschnitt aus Datenproduktion, nicht als generisches CRUD.
+Stammdatenplattform für Fertigarzneimittel: Katalog, Matching, Qualitätssicherung und JavaFX-QA-Workstation.
 
 Synthetische Demodaten. Kein medizinischer Rat, keine Verbindung zu kommerziellen Arzneimitteldatenbanken.
 
@@ -10,50 +10,59 @@ Synthetische Demodaten. Kein medizinischer Rat, keine Verbindung zu kommerzielle
 ![JavaFX](https://img.shields.io/badge/JavaFX-21-0586c3)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-**Repo:** [github.com/mdacoding/pharma-index](https://github.com/mdacoding/pharma-index)  
-**Texte für CV/LinkedIn:** [docs/portfolio-pitch.md](docs/portfolio-pitch.md)
-
 ---
 
-## 30 Sekunden für Recruiter
+## Überblick
 
-1. Lokal `.\scripts\start-api.ps1` → [http://localhost:8080](http://localhost:8080)
-2. Matching-Feld: **Paracetmol HEXAL** (Tippfehler) – Treffer inkl. Begründung und Millisekunden
-3. Tabelle darunter: echte QA-Findings (ungültige PZN, fehlender ATC, Dublette, Preis)
-4. Optional Desktop: `.\scripts\start-ui.ps1` (JavaFX: Dashboard, Katalog mit Revisionen, QA-Farben)
+Die Anwendung bildet typische Schritte der Stammdatenpflege ab: PZN-Lookup, unscharfe Zuordnung von Freitext (Warenwirtschaft/Scan), Qualitätsregeln und Änderungshistorie. Partnerimporte laufen als Upsert über die PZN.
 
-Schreiben (Import/Update) braucht Header `X-API-Key: demo-partner-key`. Lesen und Matching sind in der Demo absichtlich offen, damit Fachlogik ohne Setup sichtbar ist.
+In der Demo sind Lesen und Matching ohne API-Key nutzbar. Anlegen, Ändern und CSV-Import erfordern `X-API-Key`.
 
----
+## Schnellstart
+
+JDK 21, Maven.
+
+```powershell
+.\scripts\start-api.ps1
+```
+
+| | |
+|---|---|
+| Anwendung | http://localhost:8080 |
+| OpenAPI | http://localhost:8080/swagger-ui.html |
+| Health | http://localhost:8080/actuator/health |
+| Schreibender Zugriff | Header `X-API-Key: demo-partner-key` |
+
+Beispiel im Matching-Feld: `Paracetmol HEXAL` (Tippfehler). Desktop-UI:
+
+```powershell
+.\scripts\start-ui.ps1
+```
 
 ## Screenshots
 
-| Live-Demo im Browser | Matching mit Score-Begründung |
+| Startseite | Matching und QA |
 |---|---|
-| ![Landing](docs/screenshots/landing.png) | ![Matching](docs/screenshots/matching.png) |
+| ![Startseite](docs/screenshots/landing.png) | ![Matching](docs/screenshots/matching.png) |
 
-> Bilder nach dem Start unter `docs/screenshots/` ablegen, falls sie in einem Clone fehlen: Startseite und Matching-Tabelle.
+## Fachliche Entscheidungen
 
----
-
-## Warum das für eine Fachabteilung zählt
-
-| Thema | Entscheidung im Code |
+| Thema | Umsetzung |
 |---|---|
-| PZN | Prüfziffer Gewichte 2–8, mod 11, Rest 10 unzulässig (`PznChecksum`) |
-| Matching | kein Full-Scan als Normalfall: Trigramm-Index, dann Feinscoring |
-| QA | Findings persistiert, JavaFX als Redaktions-UI |
-| B2B | CSV-Upsert, wiederholter Feed ist Update, kein 409 |
-| Historie | jede Anlage/Änderung als Revision |
-| Skalierung | Caffeine-Cache, Paginierung, Actuator inkl. Indexgröße, Prometheus |
-| Demo vs. Produktion | öffentliche Reads nur für Portfolio; Writes hinter API-Key; MySQL-Profil vorhanden |
+| PZN | Prüfziffer Gewichte 2–8, Summe mod 11, Rest 10 unzulässig (`PznChecksum`) |
+| Matching | Trigramm-Index für Kandidaten, danach Feinscoring (Levenshtein, Tokens, ATC-/Wirkstoff-Boost) |
+| Qualitätssicherung | Findings als Datensätze; JavaFX-Oberfläche zur Bearbeitung |
+| B2B | Semikolon-CSV, wiederholter Import aktualisiert denselben Stammsatz |
+| Historie | Anlage und Änderung als Revision |
+| Betrieb | Caffeine-Cache, Paginierung, Actuator (inkl. Indexgröße), Prometheus |
+| Demo vs. Betrieb | öffentliche Reads nur lokal/Demo; Writes hinter API-Key; MySQL-Profil vorhanden |
 
 ## Architektur
 
 ```mermaid
 flowchart LR
-  subgraph demo [Browser-Demo]
-    Landing[Landing: KPIs Matching QA]
+  subgraph demo [Browser]
+    Landing[Startseite]
   end
   subgraph ui [JavaFX]
     Dash[Dashboard]
@@ -72,34 +81,15 @@ flowchart LR
   REST --> DB
 ```
 
-## Start
-
-JDK 21, Maven.
-
-```powershell
-.\scripts\start-api.ps1
-```
-
-| | |
-|---|---|
-| Demo | http://localhost:8080 |
-| Swagger | http://localhost:8080/swagger-ui.html |
-| Health | http://localhost:8080/actuator/health |
-| Write-Key | `demo-partner-key` |
-
-```powershell
-.\scripts\start-ui.ps1
-```
-
 ## Tests
 
 ```bash
 mvn -pl catalog-service test
 ```
 
-## Deployment (optional, Free)
+## Deployment
 
-Kein Vercel – das ist Java, kein React-Frontend. Öffentliche API: Render Blueprint (`render.yaml`), H2 im Speicher, keine bezahlte Datenbank.
+Kein Vercel: das Backend ist Java. Optional Render Free über `render.yaml` (H2 im Speicher, keine extra Datenbank).
 
 ## Lizenz
 
