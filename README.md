@@ -1,17 +1,17 @@
 # PharmaIndex
 
-Stammdatenplattform für Fertigarzneimittel: Katalog, Matching, Qualitätssicherung und JavaFX-QA-Workstation.
+Katalog, Matching und Qualitätssicherung für Fertigarzneimittel.
+
+Die Anwendung bildet die Arbeit mit Arzneimittelstammdaten ab: eine Pharmazentralnummer muss stimmen, Freitext aus der Warenwirtschaft soll das richtige Präparat treffen, und Qualitätsmängel sind Vorgänge – keine Logzeilen. Partnerlieferungen laufen als CSV-Upsert über die PZN.
 
 Synthetische Demodaten. Kein medizinischer Rat, keine Verbindung zu kommerziellen Arzneimitteldatenbanken.
 
 [![CI](https://github.com/mdacoding/pharma-index/actions/workflows/ci.yml/badge.svg)](https://github.com/mdacoding/pharma-index/actions/workflows/ci.yml)
-[![Live](https://img.shields.io/badge/Live-Render_Free-1a7a6d)](https://pharma-index-api.onrender.com)
+[![Live](https://img.shields.io/badge/Live-Render-1a7a6d)](https://pharma-index-api.onrender.com)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4-brightgreen)
 ![JavaFX](https://img.shields.io/badge/JavaFX-21-0586c3)
 ![License](https://img.shields.io/badge/License-MIT-blue)
-
----
 
 ## Live-Demo
 
@@ -20,21 +20,77 @@ Synthetische Demodaten. Kein medizinischer Rat, keine Verbindung zu kommerzielle
 | Anwendung | https://pharma-index-api.onrender.com |
 | OpenAPI | https://pharma-index-api.onrender.com/swagger-ui.html |
 | Health | https://pharma-index-api.onrender.com/actuator/health |
-| Schreibender Zugriff | Header `X-API-Key: demo-partner-key` |
 
-Render Free schläft nach 15 Minuten Idle; der erste Request danach dauert etwa eine Minute. H2 ist flüchtig – beim Aufwachen wird der Katalog neu geladen.
+Auf der Startseite liegen Katalogzahlen, ein Matching-Feld und offene QA-Findings. Lesen und Matching brauchen keinen Schlüssel. Anlegen, Ändern, CSV-Import und QA-Scan: Header `X-API-Key: demo-partner-key`.
 
----
+Tippfehler zum Ausprobieren: `Paracetmol HEXAL`.
 
-## Überblick
+Die Instanz läuft auf Render Free und schläft nach 15 Minuten ohne Traffic. Der erste Request danach dauert etwa eine Minute; H2 startet leer und wird neu befüllt.
 
-Die Anwendung bildet typische Schritte der Stammdatenpflege ab: PZN-Lookup, unscharfe Zuordnung von Freitext (Warenwirtschaft/Scan), Qualitätsregeln und Änderungshistorie. Partnerimporte laufen als Upsert über die PZN.
+## Screenshots
 
-In der Demo sind Lesen und Matching ohne API-Key nutzbar. Anlegen, Ändern und CSV-Import erfordern `X-API-Key`.
+| Startseite | Matching und QA |
+|---|---|
+| ![Startseite](docs/screenshots/landing.png) | ![Matching](docs/screenshots/matching.png) |
 
-## Schnellstart
+## Fachlogik
 
-JDK 21, Maven.
+| Thema | Regel |
+|---|---|
+| PZN-8 | Stamm 7 Ziffern × Gewichte 2–8, Prüfziffer = Summe mod 11, Rest 10 unzulässig (`PznChecksum`) |
+| Matching | Invertierter Trigramm-Index wählt Kandidaten; Feinscoring aus Levenshtein, Token-Überlappung, ATC- und Wirkstoff-Boost – mit Begründung |
+| Qualitätssicherung | Findings als Datensätze (ungültige PZN, ATC, Stärke, Preis, Dubletten); Abarbeitung in der JavaFX-Workstation |
+| B2B-Import | Semikolon-CSV, UTF-8; wiederholter Import aktualisiert denselben Stammsatz über die PZN |
+| Historie | Jede Anlage und Änderung als Revision |
+| Betrieb | Caffeine-Cache, Paginierung, Actuator (inkl. Indexgröße), Prometheus, Rate-Limit, Korrelations-ID |
+
+Die Demo gibt Reads frei, damit Matching und QA im Browser sichtbar sind. Schreibende Endpunkte bleiben hinter dem API-Key. Für persistente Daten gibt es ein MySQL-Profil (`application-mysql.yml`).
+
+## Architektur
+
+Zwei Maven-Module: `catalog-service` (Spring Boot 3.4, Java 21) und `qa-workstation` (JavaFX 21).
+
+```mermaid
+flowchart LR
+  subgraph clients [Clients]
+    Landing[Startseite]
+    UI[JavaFX-Workstation]
+  end
+  subgraph api [catalog-service]
+    REST[REST / OpenAPI]
+    Idx[Trigramm-Index]
+    Rules[QualityEngine]
+  end
+  DB[(H2 / MySQL)]
+  Landing --> REST
+  UI --> REST
+  REST --> Idx
+  REST --> Rules
+  REST --> DB
+```
+
+| Modul | Aufgabe |
+|---|---|
+| `catalog-service` | REST-Katalog, Matching, QA-Regelwerk, B2B-Import, Flyway, Hibernate |
+| `qa-workstation` | Desktop-Arbeitsplatz: Dashboard, Katalog, Matching, Findings |
+
+## API
+
+| Methode | Pfad | Auth |
+|---|---|---|
+| `GET` | `/api/v1/products`, `/api/v1/products/{pzn}` | offen |
+| `GET` | `/api/v1/products/{pzn}/revisions` | offen |
+| `POST` | `/api/v1/match` | offen |
+| `GET` | `/api/v1/qa/findings`, `/api/v1/ops/dashboard` | offen |
+| `POST` / `PUT` | `/api/v1/products` | `X-API-Key` |
+| `POST` | `/api/v1/b2b/imports` | `X-API-Key` |
+| `POST` | `/api/v1/qa/scan` | `X-API-Key` |
+
+Vollständige Beschreibung: [OpenAPI](https://pharma-index-api.onrender.com/swagger-ui.html).
+
+## Lokal starten
+
+JDK 21 und Maven.
 
 ```powershell
 .\scripts\start-api.ps1
@@ -45,54 +101,11 @@ JDK 21, Maven.
 | Anwendung | http://localhost:8080 |
 | OpenAPI | http://localhost:8080/swagger-ui.html |
 | Health | http://localhost:8080/actuator/health |
-| Schreibender Zugriff | Header `X-API-Key: demo-partner-key` |
 
-Beispiel im Matching-Feld: `Paracetmol HEXAL` (Tippfehler). Desktop-UI:
+JavaFX-Workstation, sobald die API läuft:
 
 ```powershell
 .\scripts\start-ui.ps1
-```
-
-## Screenshots
-
-| Startseite | Matching und QA |
-|---|---|
-| ![Startseite](docs/screenshots/landing.png) | ![Matching](docs/screenshots/matching.png) |
-
-## Fachliche Entscheidungen
-
-| Thema | Umsetzung |
-|---|---|
-| PZN | Prüfziffer Gewichte 2–8, Summe mod 11, Rest 10 unzulässig (`PznChecksum`) |
-| Matching | Trigramm-Index für Kandidaten, danach Feinscoring (Levenshtein, Tokens, ATC-/Wirkstoff-Boost) |
-| Qualitätssicherung | Findings als Datensätze; JavaFX-Oberfläche zur Bearbeitung |
-| B2B | Semikolon-CSV, wiederholter Import aktualisiert denselben Stammsatz |
-| Historie | Anlage und Änderung als Revision |
-| Betrieb | Caffeine-Cache, Paginierung, Actuator (inkl. Indexgröße), Prometheus |
-| Demo vs. Betrieb | öffentliche Reads nur lokal/Demo; Writes hinter API-Key; MySQL-Profil vorhanden |
-
-## Architektur
-
-```mermaid
-flowchart LR
-  subgraph demo [Browser]
-    Landing[Startseite]
-  end
-  subgraph ui [JavaFX]
-    Dash[Dashboard]
-    Kat[Katalog]
-  end
-  subgraph api [catalog-service]
-    REST[REST / OpenAPI]
-    Idx[Trigramm-Index]
-    Rules[QualityEngine]
-  end
-  DB[(H2 / MySQL)]
-  demo --> REST
-  ui --> REST
-  REST --> Idx
-  REST --> Rules
-  REST --> DB
 ```
 
 ## Tests
@@ -103,7 +116,7 @@ mvn -pl catalog-service test
 
 ## Deployment
 
-Die API ist ein Docker-Image. `render.yaml` beschreibt den Render-Free-Service (H2 im Speicher, Health-Check `/actuator/health`). Push auf `main` löst Auto-Deploy aus.
+Docker-Image. `render.yaml` beschreibt den Render-Free-Service (H2 im Speicher, Health-Check `/actuator/health`). Push auf `main` löst Auto-Deploy aus.
 
 ## Lizenz
 
