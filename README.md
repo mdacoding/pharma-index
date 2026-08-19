@@ -15,7 +15,7 @@ Synthetische Demodaten. Kein medizinischer Rat, keine Verbindung zu kommerzielle
 
 ## Live-Demo
 
-| | |
+| | URL |
 |---|---|
 | Anwendung | https://pharma-index-api.onrender.com |
 | OpenAPI | https://pharma-index-api.onrender.com/swagger-ui.html |
@@ -76,12 +76,12 @@ flowchart LR
 
 ## API
 
-| Methode | Pfad | Auth |
+| Methode | Pfad | Zugriff |
 |---|---|---|
-| `GET` | `/api/v1/products`, `/api/v1/products/{pzn}` | offen |
-| `GET` | `/api/v1/products/{pzn}/revisions` | offen |
-| `POST` | `/api/v1/match` | offen |
-| `GET` | `/api/v1/qa/findings`, `/api/v1/ops/dashboard` | offen |
+| `GET` | `/api/v1/products`, `/api/v1/products/{pzn}` | öffentlich |
+| `GET` | `/api/v1/products/{pzn}/revisions` | öffentlich |
+| `POST` | `/api/v1/match` | öffentlich |
+| `GET` | `/api/v1/qa/findings`, `/api/v1/ops/dashboard` | öffentlich |
 | `POST` / `PUT` | `/api/v1/products` | `X-API-Key` |
 | `POST` | `/api/v1/b2b/imports` | `X-API-Key` |
 | `POST` | `/api/v1/qa/scan` | `X-API-Key` |
@@ -96,7 +96,7 @@ JDK 21 und Maven.
 .\scripts\start-api.ps1
 ```
 
-| | |
+| | URL |
 |---|---|
 | Anwendung | http://localhost:8080 |
 | OpenAPI | http://localhost:8080/swagger-ui.html |
