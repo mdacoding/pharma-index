@@ -1,4 +1,4 @@
-# Portfolio-Texte: PharmaIndex
+# Texte: PharmaIndex
 
 Für LinkedIn, Lebenslauf und Fachgespräch (z. B. Java-Entwicklung im Apotheken-/Arzneimitteldatenmarkt). Keine Verbindung zu Avoxa oder ABDATA – synthetische Demodaten.
 
@@ -6,7 +6,7 @@ Für LinkedIn, Lebenslauf und Fachgespräch (z. B. Java-Entwicklung im Apotheken
 
 ## 1. LinkedIn-Post
 
-**Neues Portfolio-Projekt: PharmaIndex**
+**Neues Projekt: PharmaIndex**
 
 Eine Stammdatenplattform für Fertigarzneimittel: REST-Katalog, Tippfehler-tolerantes Matching und Qualitätssicherung – plus JavaFX-Arbeitsplatz für Fachredaktion.
 
@@ -23,7 +23,7 @@ Spannend war nicht das CRUD, sondern die Fachregeln, die Warenwirtschaft vorauss
 
 ## 2. Kurzbeschreibung (CV / Projektliste)
 
-**PharmaIndex** — Java-Plattform für Arzneimittelstammdaten (PZN, ATC, Wirkstoff): REST/B2B-Import mit API-Key, Fuzzy-Matching (Trigramme + Levenshtein, nachvollziehbarer Score), Qualitätsregelwerk mit persistierten Findings, Stammdaten-Revisionen und JavaFX-QA-Workstation. Tests, Flyway, Actuator/Prometheus, Live-Demo auf Render Free. [Demo](https://pharma-index-api.onrender.com) · [GitHub](https://github.com/mdacoding/pharma-index)
+**PharmaIndex** — Java-Plattform für Arzneimittelstammdaten (PZN, ATC, Wirkstoff): REST/B2B-Import mit API-Key, Fuzzy-Matching (Trigramme + Levenshtein, nachvollziehbarer Score), Qualitätsregelwerk mit persistierten Findings, Stammdaten-Revisionen und JavaFX-QA-Workstation. Tests, Flyway, Actuator/Prometheus, Live-Demo. [Demo](https://pharma-index-api.onrender.com) · [GitHub](https://github.com/mdacoding/pharma-index)
 
 **Stack:** Java 21 · Spring Boot 3 · Hibernate · Flyway · OpenAPI · JavaFX · H2/MySQL
 

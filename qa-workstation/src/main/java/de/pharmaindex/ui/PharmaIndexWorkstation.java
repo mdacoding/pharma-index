@@ -44,7 +44,7 @@ public class PharmaIndexWorkstation extends Application {
         tabs.getTabs().add(new Tab("Matching", new MatchingPane(client)));
         tabs.getTabs().add(new Tab("Qualitätssicherung", new QualityPane(client)));
 
-        Label footer = new Label("Synthetische Demodaten  ·  kein medizinischer Rat  ·  Portfolio-Projekt");
+        Label footer = new Label("Synthetische Demodaten  ·  kein medizinischer Rat");
         footer.getStyleClass().add("footer");
         footer.setPadding(new Insets(8, 24, 10, 24));
 
