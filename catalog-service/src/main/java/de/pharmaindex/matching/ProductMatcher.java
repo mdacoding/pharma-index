@@ -16,6 +16,10 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Fuzzy-Match für Freitext aus Warenwirtschaft oder Scan.
+ * Erst Kandidaten über {@link TrigramIndex}, dann gewichtetes Scoring inkl. ATC- und Wirkstoff-Boost.
+ */
 @Service
 public class ProductMatcher {
 

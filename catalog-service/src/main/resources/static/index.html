@@ -3,43 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PharmaIndex – Stammdaten für Fertigarzneimittel</title>
+    <title>PharmaIndex – Stammdaten, Matching, Qualitätssicherung</title>
     <style>
-        :root { color-scheme: light; }
-        body { margin: 0; font-family: "Segoe UI", sans-serif; background: #eef3f5; color: #24363d; }
-        header { background: #0f3d4c; color: white; padding: 48px 24px 40px; }
-        h1 { margin: 0 0 8px; font-size: 2rem; }
-        .sub { color: #b7d5de; max-width: 720px; }
-        main { max-width: 880px; margin: 0 auto; padding: 32px 24px 64px; }
-        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-        a.card { display: block; background: white; border-radius: 10px; padding: 18px; text-decoration: none; color: inherit;
-            box-shadow: 0 8px 20px rgba(15, 61, 76, 0.08); }
-        a.card strong { display: block; color: #0f3d4c; margin-bottom: 6px; }
-        .key { background: #0f3d4c; color: #8fd0c0; padding: 2px 8px; border-radius: 4px; font-family: ui-monospace, monospace; }
-        p.note { color: #5b6f76; font-size: 0.95rem; }
+        :root {
+            --navy: #0f3d4c;
+            --teal: #1a7a6d;
+            --mist: #eef3f5;
+            --ink: #24363d;
+            --muted: #5b6f76;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: "Segoe UI", "IBM Plex Sans", sans-serif; background: var(--mist); color: var(--ink); }
+        header { background: var(--navy); color: white; padding: 40px 24px 32px; }
+        header .wrap, main { max-width: 1080px; margin: 0 auto; }
+        h1 { margin: 0 0 6px; font-size: 2.1rem; letter-spacing: -0.02em; }
+        .eyebrow { color: #8fd0c0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+        .sub { color: #b7d5de; max-width: 760px; line-height: 1.5; margin: 0; }
+        .links { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .links a { color: white; text-decoration: none; background: #1a7a6d; padding: 8px 14px; border-radius: 6px; font-size: 0.9rem; }
+        .links a.ghost { background: transparent; border: 1px solid #3d6a78; }
+        main { padding: 28px 24px 72px; }
+        .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+        .kpi { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 8px 18px rgba(15,61,76,0.08); }
+        .kpi span { display: block; color: var(--muted); font-size: 0.75rem; }
+        .kpi strong { display: block; font-size: 1.8rem; color: var(--navy); margin-top: 4px; }
+        section { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 18px rgba(15,61,76,0.08); }
+        h2 { margin: 0 0 12px; font-size: 1.15rem; color: var(--navy); }
+        .row { display: flex; gap: 10px; flex-wrap: wrap; }
+        input { flex: 1; min-width: 220px; padding: 10px 12px; border: 1px solid #c5d4d8; border-radius: 6px; font-size: 1rem; }
+        button { background: var(--teal); color: white; border: 0; border-radius: 6px; padding: 10px 16px; font-weight: 700; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+        th { text-align: left; color: var(--muted); font-weight: 600; padding: 8px 6px; border-bottom: 1px solid #e6eef1; }
+        td { padding: 8px 6px; border-bottom: 1px solid #f0f4f6; vertical-align: top; }
+        .sev-ERROR { color: #b42318; font-weight: 700; }
+        .sev-WARNING { color: #b54708; font-weight: 700; }
+        .sev-INFO { color: #175cd3; }
+        .hint { color: var(--muted); font-size: 0.88rem; }
+        footer { color: var(--muted); font-size: 0.82rem; }
+        code { background: #0f3d4c; color: #8fd0c0; padding: 1px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
 <header>
-    <h1>PharmaIndex</h1>
-    <p class="sub">Stammdatenplattform für Fertigarzneimittel: REST, Matching-Algorithmen, Qualitätssicherung. Synthetische Demodaten – kein medizinischer Rat.</p>
+    <div class="wrap">
+        <div class="eyebrow">Portfolio · Arzneimittelstammdaten</div>
+        <h1>PharmaIndex</h1>
+        <p class="sub">Katalog, Tippfehler-tolerantes Matching und Qualitätssicherung für Fertigarzneimittel – so wie Fachredaktion und Warenwirtschaft Stammdaten prüfen, nicht als reines CRUD-Beispiel. Synthetische Demodaten, kein medizinischer Rat.</p>
+        <div class="links">
+            <a href="/swagger-ui.html">OpenAPI / Swagger</a>
+            <a class="ghost" href="https://github.com/mdacoding/pharma-index">Quellcode auf GitHub</a>
+        </div>
+    </div>
 </header>
 <main>
-    <div class="cards">
-        <a class="card" href="/swagger-ui.html">
-            <strong>Swagger UI</strong>
-            Interaktive API. Header <span class="key">X-API-Key</span> setzen auf <span class="key">demo-partner-key</span>.
-        </a>
-        <a class="card" href="/actuator/health">
-            <strong>Health</strong>
-            Live-Status inkl. Matching-Index.
-        </a>
-        <a class="card" href="https://github.com/mdacoding/pharma-index">
-            <strong>GitHub</strong>
-            Quellcode, JavaFX-Workstation und README.
-        </a>
+    <div class="kpis" id="kpis">
+        <div class="kpi"><span>Katalog</span><strong>—</strong></div>
     </div>
-    <p class="note">Schnelltest: <code>POST /api/v1/match</code> mit Query <em>Paracetmol HEXAL</em> – Tippfehler-tolerantes Matching mit Score-Begründung.</p>
+
+    <section>
+        <h2>Matching wie in der Warenwirtschaft</h2>
+        <p class="hint">Tippfehler und Freitext werden über Trigramm-Index, Levenshtein und Wirkstoff-Boost bewertet – inkl. Begründung. Beispiel: <em>Paracetmol HEXAL</em> oder <em>Ibuflam 400</em>.</p>
+        <div class="row">
+            <input id="query" value="Paracetmol HEXAL" aria-label="Suchtext">
+            <button type="button" id="matchBtn">Matchen</button>
+        </div>
+        <div id="matchMeta" class="hint" style="margin-top:10px;"></div>
+        <table id="matchTable"></table>
+    </section>
+
+    <section>
+        <h2>Offene Qualitätssicherung</h2>
+        <p class="hint">Findings sind Datensätze, keine Logzeilen: ungültige PZN-Prüfziffer, fehlender ATC, Dubletten, Preisausreißer.</p>
+        <table id="qaTable"></table>
+    </section>
+
+    <footer>
+        Schreiben (Import, Update, QA-Scan) bleibt hinter <code>X-API-Key: demo-partner-key</code>.
+        In Produktion: Keys hashen, keine Demo-Secrets, MySQL/Oracle statt H2.
+    </footer>
 </main>
+<script>
+    const euro = new Intl.NumberFormat("de-DE");
+    async function json(url, opts) {
+        const res = await fetch(url, opts);
+        if (!res.ok) throw new Error(res.status + " " + await res.text());
+        return res.json();
+    }
+    function kpi(label, value) {
+        return `<div class="kpi"><span>${label}</span><strong>${value}</strong></div>`;
+    }
+    async function loadDashboard() {
+        const d = await json("/api/v1/ops/dashboard");
+        document.getElementById("kpis").innerHTML = [
+            kpi("Präparate", euro.format(d.productCount)),
+            kpi("Aktiv", euro.format(d.activeCount)),
+            kpi("Offene Findings", euro.format(d.openFindings)),
+            kpi("Errors", euro.format(d.errorFindings)),
+            kpi("Matching-Index", euro.format(d.matchingIndexSize))
+        ].join("");
+    }
+    async function loadQa() {
+        const rows = await json("/api/v1/qa/findings");
+        const body = rows.slice(0, 8).map(f =>
+            `<tr><td class="sev-${f.severity}">${f.severity}</td><td>${f.type}</td><td>${f.pzn}</td><td>${f.productName}</td><td>${f.message}</td></tr>`
+        ).join("");
+        document.getElementById("qaTable").innerHTML =
+            `<thead><tr><th>Schwere</th><th>Typ</th><th>PZN</th><th>Präparat</th><th>Meldung</th></tr></thead><tbody>${body}</tbody>`;
+    }
+    async function runMatch() {
+        const query = document.getElementById("query").value;
+        const result = await json("/api/v1/match", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query })
+        });
+        document.getElementById("matchMeta").textContent =
+            `${result.matches.length} Treffer aus Pool ${result.candidatePoolSize} in ${result.durationMs} ms`;
+        const body = result.matches.map(m =>
+            `<tr><td><strong>${Math.round(m.score * 100)} %</strong></td><td>${m.pzn}</td><td>${m.name}</td><td>${m.manufacturer}</td><td>${(m.explanations || []).join(" · ")}</td></tr>`
+        ).join("");
+        document.getElementById("matchTable").innerHTML =
+            `<thead><tr><th>Score</th><th>PZN</th><th>Name</th><th>Hersteller</th><th>Begründung</th></tr></thead><tbody>${body}</tbody>`;
+    }
+    document.getElementById("matchBtn").addEventListener("click", () => runMatch().catch(err => alert(err.message)));
+    document.getElementById("query").addEventListener("keydown", e => { if (e.key === "Enter") runMatch(); });
+    Promise.all([loadDashboard(), loadQa(), runMatch()]).catch(err => {
+        document.getElementById("matchMeta").textContent = "API nicht erreichbar: " + err.message;
+    });
+</script>
 </body>
 </html>

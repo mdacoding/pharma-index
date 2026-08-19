@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * Regelwerk der Datenproduktion: Findings werden persistiert, nicht nur geloggt.
+ * So kann Fachredaktion Fehler abarbeiten (PZN, ATC, Stärke, Preis, Dubletten).
+ */
 @Service
 public class QualityEngine {
 

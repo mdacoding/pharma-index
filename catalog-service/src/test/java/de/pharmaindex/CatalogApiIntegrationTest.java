@@ -27,9 +27,18 @@ class CatalogApiIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    void rejectsMissingApiKey() throws Exception {
-        mockMvc.perform(get("/api/v1/products"))
+    void rejectsWriteWithoutApiKey() throws Exception {
+        mockMvc.perform(post("/api/v1/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void publicCatalogSearchNeedsNoApiKey() throws Exception {
+        mockMvc.perform(get("/api/v1/products").param("q", "Ibuprofen"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").value(greaterThan(0)));
     }
 
     @Test
@@ -57,7 +66,6 @@ class CatalogApiIntegrationTest {
     @Test
     void matchesTypoAgainstParacetamol() throws Exception {
         mockMvc.perform(post("/api/v1/match")
-                        .header("X-API-Key", API_KEY)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"query":"Paracetmol HEXAL"}

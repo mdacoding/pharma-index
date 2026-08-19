@@ -28,7 +28,9 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.equals("/")
+        String method = request.getMethod();
+        if ("OPTIONS".equalsIgnoreCase(method)
+                || path.equals("/")
                 || path.equals("/index.html")
                 || path.equals("/favicon.ico")
                 || path.startsWith("/actuator/health")
@@ -36,8 +38,19 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
                 || path.startsWith("/actuator/prometheus")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-ui")
-                || path.startsWith("/h2-console")
-                || "OPTIONS".equalsIgnoreCase(request.getMethod());
+                || path.startsWith("/h2-console")) {
+            return true;
+        }
+        // Demo: Lesen und Matching ohne Key, damit Recruiter die Fachlogik sofort sehen.
+        // Schreiben (Import, Stammdaten-Update, QA-Scan) bleibt geschützt.
+        if ("GET".equalsIgnoreCase(method)
+                && (path.startsWith("/api/v1/ops/dashboard")
+                || path.startsWith("/api/v1/products")
+                || path.startsWith("/api/v1/qa/findings")
+                || path.startsWith("/api/v1/qa/summary"))) {
+            return true;
+        }
+        return "POST".equalsIgnoreCase(method) && "/api/v1/match".equals(path);
     }
 
     @Override

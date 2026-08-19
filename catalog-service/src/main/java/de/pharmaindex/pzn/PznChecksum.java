@@ -1,10 +1,11 @@
 package de.pharmaindex.pzn;
 
 /**
- * Prüfziffer der deutschen Pharmazentralnummer (PZN-8).
+ * Deutsche Pharmazentralnummer (PZN-8).
  *
- * <p>Die ersten sieben Ziffern werden mit den Gewichten 2..8 multipliziert.
- * Die Prüfziffer ist die Summe modulo 11. Rest 10 ist unzulässig.
+ * <p>Fachregel, die in Warenwirtschaft und Arztsoftware vorausgesetzt wird:
+ * Stamm 7 Ziffern × Gewichte 2–8, Prüfziffer = Summe mod 11, Rest 10 unzulässig.
+ * Deshalb validieren wir die PZN im Code – nicht erst in der UI.
  */
 public final class PznChecksum {
 

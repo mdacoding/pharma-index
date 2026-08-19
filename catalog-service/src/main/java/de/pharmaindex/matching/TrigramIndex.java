@@ -8,7 +8,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Invertiertes Trigramm-Register für Kandidatensuche in O(k) statt Full-Scan.
+ * Invertiertes Trigramm-Register.
+ *
+ * <p>Kandidatensuche in O(Postinglisten) statt Full-Scan über den Katalog.
+ * Anschließend Feinscoring (Dice, Levenshtein, Tokens) in {@code ProductMatcher}.
+ * In Oracle/MySQL wäre das der Weg zu N-Gram-/UTL_MATCH-Indizes.
  */
 public final class TrigramIndex {
 
