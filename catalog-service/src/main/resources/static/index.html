@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PharmaIndex – Stammdaten für Fertigarzneimittel</title>
+    <style>
+        :root { color-scheme: light; }
+        body { margin: 0; font-family: "Segoe UI", sans-serif; background: #eef3f5; color: #24363d; }
+        header { background: #0f3d4c; color: white; padding: 48px 24px 40px; }
+        h1 { margin: 0 0 8px; font-size: 2rem; }
+        .sub { color: #b7d5de; max-width: 720px; }
+        main { max-width: 880px; margin: 0 auto; padding: 32px 24px 64px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        a.card { display: block; background: white; border-radius: 10px; padding: 18px; text-decoration: none; color: inherit;
+            box-shadow: 0 8px 20px rgba(15, 61, 76, 0.08); }
+        a.card strong { display: block; color: #0f3d4c; margin-bottom: 6px; }
+        .key { background: #0f3d4c; color: #8fd0c0; padding: 2px 8px; border-radius: 4px; font-family: ui-monospace, monospace; }
+        p.note { color: #5b6f76; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>PharmaIndex</h1>
+    <p class="sub">Stammdatenplattform für Fertigarzneimittel: REST, Matching-Algorithmen, Qualitätssicherung. Synthetische Demodaten – kein medizinischer Rat.</p>
+</header>
+<main>
+    <div class="cards">
+        <a class="card" href="/swagger-ui.html">
+            <strong>Swagger UI</strong>
+            Interaktive API. Header <span class="key">X-API-Key</span> setzen auf <span class="key">demo-partner-key</span>.
+        </a>
+        <a class="card" href="/actuator/health">
+            <strong>Health</strong>
+            Live-Status inkl. Matching-Index.
+        </a>
+        <a class="card" href="https://github.com/mdacoding/pharma-index">
+            <strong>GitHub</strong>
+            Quellcode, JavaFX-Workstation und README.
+        </a>
+    </div>
+    <p class="note">Schnelltest: <code>POST /api/v1/match</code> mit Query <em>Paracetmol HEXAL</em> – Tippfehler-tolerantes Matching mit Score-Begründung.</p>
+</main>
+</body>
+</html>

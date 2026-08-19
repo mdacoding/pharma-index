@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: pharma-index-catalog
+  datasource:
+    url: jdbc:h2:mem:pharmaindex;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=5000,expireAfterWrite=10m
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      show-components: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: PharmaIndex Catalog Service
+    description: Arzneimittelstammdaten, B2B-Import, Matching und Qualitätssicherung
+    version: 1.0.0
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
+pharma-index:
+  security:
+    demo-api-key: demo-partner-key
+  matching:
+    min-score: 0.42
+    max-candidates: 8
+  quality:
+    price-warning-eur: 250
+  ratelimit:
+    requests-per-minute: 120
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%X{requestId:-}] %-5level %logger{36} - %msg%n"

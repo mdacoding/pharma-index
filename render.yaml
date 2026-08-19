@@ -1,0 +1,10 @@
+# Render Blueprint (Free-Plan). H2 im Speicher – keine bezahlte Datenbank.
+#
+# Anwenden: Render-Dashboard -> New -> Blueprint -> dieses Repo waehlen.
+services:
+  - type: web
+    name: pharma-index-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health

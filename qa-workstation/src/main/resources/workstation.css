@@ -1,0 +1,115 @@
+.root-pane {
+    -fx-font-family: "Segoe UI", "IBM Plex Sans", sans-serif;
+    -fx-background-color: #eef3f5;
+}
+
+.header {
+    -fx-background-color: #0f3d4c;
+}
+
+.brand {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-text-fill: #b7d5de;
+    -fx-font-size: 13px;
+}
+
+.connection {
+    -fx-text-fill: #8fd0c0;
+    -fx-font-size: 12px;
+}
+
+.footer {
+    -fx-text-fill: #5b6f76;
+    -fx-font-size: 11px;
+    -fx-background-color: #e3ecef;
+}
+
+.main-tabs {
+    -fx-background-color: #eef3f5;
+}
+
+.button.primary {
+    -fx-background-color: #1a7a6d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 8 16 8 16;
+}
+
+.button {
+    -fx-background-radius: 4;
+    -fx-padding: 8 14 8 14;
+}
+
+.text-field {
+    -fx-background-radius: 4;
+    -fx-padding: 8 10 8 10;
+}
+
+.status {
+    -fx-text-fill: #4a5d66;
+    -fx-font-size: 12px;
+}
+
+.section-title {
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f3d4c;
+}
+
+.detail-text {
+    -fx-text-fill: #24363d;
+    -fx-font-size: 13px;
+}
+
+.kpi-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-padding: 14 16 14 16;
+    -fx-effect: dropshadow(gaussian, rgba(15, 61, 76, 0.12), 10, 0, 0, 2);
+    -fx-min-width: 150;
+}
+
+.kpi-title {
+    -fx-text-fill: #5b6f76;
+    -fx-font-size: 11px;
+}
+
+.kpi-value {
+    -fx-text-fill: #0f3d4c;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.kpi-hint {
+    -fx-text-fill: #7a8f96;
+    -fx-font-size: 11px;
+}
+
+.table-view {
+    -fx-background-color: white;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e6eef1;
+}
+
+.row-error {
+    -fx-background-color: #fde8e8;
+}
+
+.row-warning {
+    -fx-background-color: #fff4d6;
+}
+
+.row-info {
+    -fx-background-color: #eaf4fb;
+}
+
+.chart-title {
+    -fx-text-fill: #0f3d4c;
+}

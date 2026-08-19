@@ -1,0 +1,4 @@
+pzn;name;manufacturer;active_ingredient;atc_code;strength;form;package_size;pharmacy_price;prescription_required
+99000154;Ibuprofen AL 400 mg Filmtabletten;ALIUD PHARMA;Ibuprofen;M01AE01;400 mg;TABLETTE;20 Stück;4.95;false
+99000161;Paracetamol-ratiopharm 500 mg;ratiopharm;Paracetamol;N02BE01;500 mg;TABLETTE;20 Stück;2.49;false
+99000179;Pantoprazol STADA 20 mg magensaftresistent;STADA;Pantoprazol;A02BC02;20 mg;TABLETTE;14 Stück;8.90;false
