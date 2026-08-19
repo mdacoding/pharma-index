@@ -41,7 +41,7 @@ management:
       show-components: never
   info:
     env:
-      enabled: true
+      enabled: false
 
 info:
   app:

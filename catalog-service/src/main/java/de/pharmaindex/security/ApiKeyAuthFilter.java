@@ -41,8 +41,7 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
                 || path.startsWith("/h2-console")) {
             return true;
         }
-        // Demo: Lesen und Matching ohne Key, damit Recruiter die Fachlogik sofort sehen.
-        // Schreiben (Import, Stammdaten-Update, QA-Scan) bleibt geschützt.
+        // Demo: Lesen und Matching ohne Key. Schreiben bleibt geschützt.
         if ("GET".equalsIgnoreCase(method)
                 && (path.startsWith("/api/v1/ops/dashboard")
                 || path.startsWith("/api/v1/products")

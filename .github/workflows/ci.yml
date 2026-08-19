@@ -15,4 +15,4 @@ jobs:
           distribution: temurin
           java-version: 21
           cache: maven
-      - run: mvn -B -pl catalog-service test
+      - run: mvn -B -pl catalog-service,qa-workstation -am test

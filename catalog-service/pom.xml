@@ -12,7 +12,7 @@
 
     <artifactId>catalog-service</artifactId>
     <name>PharmaIndex Catalog Service</name>
-    <description>REST-Microservice für Arzneimittelstammdaten, B2B-Import, Matching und Qualitätssicherung.</description>
+    <description>REST-Service für Arzneimittelstammdaten, B2B-Import, Matching und Qualitätssicherung.</description>
 
     <dependencies>
         <dependency>
