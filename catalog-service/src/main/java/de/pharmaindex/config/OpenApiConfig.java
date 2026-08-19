@@ -28,10 +28,13 @@ public class OpenApiConfig {
                         .version("1.0.0")
                         .description("""
                                 Stammdaten- und Qualitätssicherungsservice für Fertigarzneimittel.
-                                Portfolio-Projekt (synthetische Demodaten, kein medizinischer Rat).
+                                Synthetische Demodaten, kein medizinischer Rat.
                                 """)
-                        .contact(new Contact().name("PharmaIndex Portfolio")))
-                .servers(List.of(new Server().url("http://localhost:8080").description("Lokal")))
+                        .contact(new Contact().name("PharmaIndex").url("https://github.com/mdacoding/pharma-index")))
+                .servers(List.of(
+                        new Server().url("/").description("Diese Instanz"),
+                        new Server().url("https://pharma-index-api.onrender.com").description("Render Free"),
+                        new Server().url("http://localhost:8080").description("Lokal")))
                 .components(new Components().addSecuritySchemes("ApiKey", apiKey))
                 .addSecurityItem(new SecurityRequirement().addList("ApiKey"));
     }

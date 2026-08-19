@@ -14,6 +14,7 @@ Spannend war nicht das CRUD, sondern die Fachregeln, die Warenwirtschaft vorauss
 
 **Stack:** Java 21 · Spring Boot 3 · JPA/Hibernate · Flyway · OpenAPI · JavaFX · GitHub Actions
 
+🔗 Live: https://pharma-index-api.onrender.com
 🔗 Code: https://github.com/mdacoding/pharma-index
 
 #Java #SpringBoot #JavaFX #HealthTech #SoftwareEngineering
@@ -22,7 +23,7 @@ Spannend war nicht das CRUD, sondern die Fachregeln, die Warenwirtschaft vorauss
 
 ## 2. Kurzbeschreibung (CV / Projektliste)
 
-**PharmaIndex** — Java-Plattform für Arzneimittelstammdaten (PZN, ATC, Wirkstoff): REST/B2B-Import mit API-Key, Fuzzy-Matching (Trigramme + Levenshtein, nachvollziehbarer Score), Qualitätsregelwerk mit persistierten Findings, Stammdaten-Revisionen und JavaFX-QA-Workstation. Tests, Flyway, Actuator/Prometheus, Docker/Render-Blueprint. [GitHub](https://github.com/mdacoding/pharma-index)
+**PharmaIndex** — Java-Plattform für Arzneimittelstammdaten (PZN, ATC, Wirkstoff): REST/B2B-Import mit API-Key, Fuzzy-Matching (Trigramme + Levenshtein, nachvollziehbarer Score), Qualitätsregelwerk mit persistierten Findings, Stammdaten-Revisionen und JavaFX-QA-Workstation. Tests, Flyway, Actuator/Prometheus, Live-Demo auf Render Free. [Demo](https://pharma-index-api.onrender.com) · [GitHub](https://github.com/mdacoding/pharma-index)
 
 **Stack:** Java 21 · Spring Boot 3 · Hibernate · Flyway · OpenAPI · JavaFX · H2/MySQL
 
@@ -51,5 +52,5 @@ Synthetische Demodaten, H2 für die Demo, API-Key statt OAuth. In Produktion: Or
 ### Ergebnis
 
 - Öffentliches Repo mit OpenAPI, Tests und nachvollziehbarer Domain-Logik
-- Recruiter können Matching und QA im Browser sehen, ohne JavaFX starten zu müssen
+- Matching und QA im Browser: https://pharma-index-api.onrender.com
 - Dieselben Fachobjekte (PZN, ATC, AVP), die in Apotheken-IT üblich sind

@@ -20,4 +20,4 @@ USER spring
 COPY --from=build /app/catalog-service/target/catalog-service-*.jar app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java -XX:MaxRAMPercentage=75.0 -jar app.jar"]

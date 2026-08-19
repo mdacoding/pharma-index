@@ -1,6 +1,5 @@
-# Render Blueprint (Free-Plan). H2 im Speicher – keine bezahlte Datenbank.
-#
-# Anwenden: Render-Dashboard -> New -> Blueprint -> dieses Repo waehlen.
+# Render Blueprint, Free-Plan. H2 im Speicher – keine Datenbankkosten.
+# Nach dem ersten Deploy: Auto-Deploy bei Push auf main.
 services:
   - type: web
     name: pharma-index-api
@@ -8,3 +7,9 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     healthCheckPath: /actuator/health
+    autoDeploy: true
+    envVars:
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=75.0
+      - key: SPRING_H2_CONSOLE_ENABLED
+        value: "false"

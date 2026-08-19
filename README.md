@@ -5,10 +5,24 @@ Stammdatenplattform für Fertigarzneimittel: Katalog, Matching, Qualitätssicher
 Synthetische Demodaten. Kein medizinischer Rat, keine Verbindung zu kommerziellen Arzneimitteldatenbanken.
 
 [![CI](https://github.com/mdacoding/pharma-index/actions/workflows/ci.yml/badge.svg)](https://github.com/mdacoding/pharma-index/actions/workflows/ci.yml)
+[![Live](https://img.shields.io/badge/Live-Render_Free-1a7a6d)](https://pharma-index-api.onrender.com)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4-brightgreen)
 ![JavaFX](https://img.shields.io/badge/JavaFX-21-0586c3)
 ![License](https://img.shields.io/badge/License-MIT-blue)
+
+---
+
+## Live-Demo
+
+| | |
+|---|---|
+| Anwendung | https://pharma-index-api.onrender.com |
+| OpenAPI | https://pharma-index-api.onrender.com/swagger-ui.html |
+| Health | https://pharma-index-api.onrender.com/actuator/health |
+| Schreibender Zugriff | Header `X-API-Key: demo-partner-key` |
+
+Render Free schläft nach 15 Minuten Idle; der erste Request danach dauert etwa eine Minute. H2 ist flüchtig – beim Aufwachen wird der Katalog neu geladen.
 
 ---
 
@@ -89,7 +103,11 @@ mvn -pl catalog-service test
 
 ## Deployment
 
-Kein Vercel: das Backend ist Java. Optional Render Free über `render.yaml` (H2 im Speicher, keine extra Datenbank).
+Kein Vercel: das Backend ist Java. Live auf Render Free über `render.yaml` (Docker, H2 im Speicher, keine bezahlte Datenbank, Budget $0).
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/mdacoding/pharma-index)
+
+Push auf `main` löst Auto-Deploy aus.
 
 ## Lizenz
 

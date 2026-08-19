@@ -8,8 +8,7 @@ spring:
     driver-class-name: org.h2.Driver
   h2:
     console:
-      enabled: true
-      path: /h2-console
+      enabled: false
   jpa:
     open-in-view: false
     hibernate:
@@ -27,6 +26,7 @@ spring:
 
 server:
   port: ${PORT:8080}
+  forward-headers-strategy: framework
 
 management:
   endpoints:
@@ -37,8 +37,8 @@ management:
     health:
       probes:
         enabled: true
-      show-details: always
-      show-components: always
+      show-details: never
+      show-components: never
   info:
     env:
       enabled: true
