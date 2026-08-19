@@ -103,11 +103,7 @@ mvn -pl catalog-service test
 
 ## Deployment
 
-Kein Vercel: das Backend ist Java. Live auf Render Free über `render.yaml` (Docker, H2 im Speicher, keine bezahlte Datenbank, Budget $0).
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/mdacoding/pharma-index)
-
-Push auf `main` löst Auto-Deploy aus.
+Die API ist ein Docker-Image. `render.yaml` beschreibt den Render-Free-Service (H2 im Speicher, Health-Check `/actuator/health`). Push auf `main` löst Auto-Deploy aus.
 
 ## Lizenz
 
