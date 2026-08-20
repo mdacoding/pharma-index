@@ -11,4 +11,6 @@ hs_err_pid*
 Thumbs.db
 .mvn/wrapper/maven-wrapper.jar
 !/.mvn/wrapper/maven-wrapper.properties
-docs/projekttexte.md
+lokal/
+docs/internal/
+**/*projekttexte*
